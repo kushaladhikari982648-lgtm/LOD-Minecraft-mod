@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "dev.pocketlod.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "BackgroundRendererMixin",
+    "GameRendererMixin",
+    "BufferBuilderAccessor",
+    "ServerChunkManagerAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "pocketlod-refmap.json"
+}

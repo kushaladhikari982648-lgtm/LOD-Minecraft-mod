@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "id": "pocketlod",
+  "version": "${version}",
+  "name": "PocketLOD",
+  "description": "Budgeted voxel terrain horizons for mobile launchers and low-end PCs.",
+  "authors": ["PocketLOD contributors"],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {"client": ["dev.pocketlod.PocketLodClient"]},
+  "mixins": ["pocketlod.mixins.json"],
+  "depends": {"fabricloader": ">=0.16.14", "fabric-api": "*", "minecraft": "~1.20.1", "java": ">=17"}
+}
