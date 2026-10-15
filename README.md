@@ -5,12 +5,11 @@ A Fabric **client-side voxel terrain LOD mod for Minecraft Java 1.20.1**, aimed 
 block-aligned surface columns beyond vanilla render distance, not sloped terrain
 triangles. It is an independent implementation, not Distant Horizons.
 
-> **Validation status:** the portable core regression suite passes locally. A full
-> Fabric/Minecraft build and in-game rendering have **not** been verified in the
-> development sandbox: external Gradle/Fabric/Mojang downloads are blocked there.
-> The GitHub Actions workflow builds with Java 17 on an unrestricted runner. Treat
-> this as a source implementation requiring build and gameplay validation, not a
-> tested release binary. No FPS or mobile compatibility guarantee is implied.
+> **Validation status:** the full Fabric/Loom build and portable core regression
+> suite now pass on GitHub CI. Release packaging checks verify Java 17 bytecode,
+> metadata, mixin/refmap and shader resources. **In-game rendering, mobile launcher
+> compatibility and FPS/heap benchmarks are still unverified.** Treat gameplay as
+> experimental; no FPS or mobile compatibility guarantee is implied.
 
 ## Build and install
 
@@ -144,7 +143,7 @@ ECJ_JAR=/path/to/ecj.jar CORE_TEST_CLASSPATH=... scripts/test-core.sh
 ```
 
 See [docs/VALIDATION.md](docs/VALIDATION.md) for the release checklist and
-[docs/CACHE_FORMAT.md](docs/CACHE_FORMAT.md) for persistence details. Do not publish
-an untested binary as a validated mobile release.
+[docs/CACHE_FORMAT.md](docs/CACHE_FORMAT.md) for persistence details. Do not describe a build-tested
+binary as a validated mobile release without completing the gameplay checklist.
 
 License: [MIT](LICENSE).

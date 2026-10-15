@@ -11,12 +11,14 @@
   neighbor culling, detail rings, near-circle corners, whole-tile limits, configuration
   clamping/scaling/persistence, cache CRC/truncation rejection, v1 migration and disk caps.
 - Yarn/Fabric source signature review was performed for integration APIs.
-- **Not performed:** full Loom build, mixin application, real shader compilation,
+- Full pinned Loom/Fabric build and core tests now pass on GitHub CI. Release
+  packaging verifies class version 61, metadata, mixins/refmap and shader resources.
+- **Not performed:** runtime mixin application, real shader compilation,
   Minecraft launch, driver/mobile tests, frame-time or heap benchmarks.
-- `./gradlew --version` fails at the Gradle distribution download in the sandbox
+- Local `./gradlew --version` fails at the Gradle distribution download in the sandbox
   with an SSL/network error; Fabric's Maven host is also unreachable.
 
-## Before publishing v0.4.0
+## Gameplay validation after the v0.4.0 build-tested release
 
 1. Run `./gradlew --no-daemon clean build` with a JDK 17 and unrestricted dependencies.
    Confirm the remapped mod JAR has Java class major version 61, correct metadata,
@@ -50,5 +52,6 @@
     mobile drivers. Check shader-pack pause behavior, GL state restoration and
     fabulous graphics framebuffer/depth behavior.
 
-Publish artifacts only after these checks; list exact environments and known
+Before claiming a gameplay-validated/mobile-tested release, complete these checks;
+list exact environments and known
 limitations in the release notes rather than promising universal glitch-free FPS.

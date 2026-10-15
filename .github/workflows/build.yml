@@ -30,3 +30,34 @@ jobs:
         with:
           name: pocketlod-1.20.1
           path: build/libs/*.jar
+  release:
+    needs: build
+    if: github.event_name == 'push' && startsWith(github.event.head_commit.message, 'Release PocketLOD ')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: pocketlod-1.20.1
+          path: build/libs
+      - name: Validate release and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=$(sed -n 's/^mod_version=//p' gradle.properties)
+          python3 scripts/verify-release.py "$version"
+          notes="docs/releases/v${version}.md"
+          test -f "$notes"
+          (cd build/libs && sha256sum "pocketlod-${version}.jar" "pocketlod-${version}-sources.jar" > SHA256SUMS)
+          gh release create "v${version}" \
+            "build/libs/pocketlod-${version}.jar" \
+            "build/libs/pocketlod-${version}-sources.jar" \
+            build/libs/SHA256SUMS \
+            --target "$GITHUB_SHA" --latest \
+            --title "PocketLOD v${version} — Fabric 1.20.1" \
+            --notes-file "$notes"
