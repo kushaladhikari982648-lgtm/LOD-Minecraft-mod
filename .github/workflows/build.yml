@@ -10,7 +10,22 @@ jobs:
           distribution: temurin
           java-version: '17'
       - uses: gradle/actions/setup-gradle@v4
-      - run: ./gradlew --no-daemon build
+      - name: Build and test
+        shell: bash
+        run: |
+          set +e
+          set -o pipefail
+          ./gradlew --no-daemon build 2>&1 | tee build.log
+          result=${PIPESTATUS[0]}
+          if [ "$result" -ne 0 ]; then
+            python3 - <<'PY'
+          from pathlib import Path
+          text = Path('build.log').read_text()[-50000:]
+          text = text.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+          print('::error title=Gradle build failed::' + text)
+          PY
+          fi
+          exit "$result"
       - uses: actions/upload-artifact@v4
         with:
           name: pocketlod-1.20.1
