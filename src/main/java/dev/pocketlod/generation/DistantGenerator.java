@@ -56,7 +56,7 @@ public final class DistantGenerator {
         ticketLevel=33+ChunkStatus.getDistanceFromFull(status);
         ServerChunkManagerAccessor manager=(ServerChunkManagerAccessor)world.getChunkManager();
         try {
-            manager.pocketlod$addTicketWithLevel(TICKET,ticketPos,ticketLevel,ticketPos);
+            manager.pocketlod$tickets().addTicketWithLevel(TICKET,ticketPos,ticketLevel,ticketPos);
             manager.pocketlod$getChunkFuture(request.x(),request.z(),status,true).whenComplete((either,error) -> server.execute(() -> {
                 if (!channel.accepts(token)) return;
                 try {
@@ -71,7 +71,7 @@ public final class DistantGenerator {
         } catch (RuntimeException e) { cancel(); PocketLodClient.LOGGER.warn("Unable to request distant chunk",e); }
     }
     private void releaseTicket() {
-        if (ticketWorld!=null) ((ServerChunkManagerAccessor)ticketWorld.getChunkManager()).pocketlod$removeTicketWithLevel(TICKET,ticketPos,ticketLevel,ticketPos);
+        if (ticketWorld!=null) ((ServerChunkManagerAccessor)ticketWorld.getChunkManager()).pocketlod$tickets().removeTicketWithLevel(TICKET,ticketPos,ticketLevel,ticketPos);
         ticketWorld=null; ticketPos=null;
     }
     private void cancel() { channel.cancel(); releaseTicket(); active=null; }
